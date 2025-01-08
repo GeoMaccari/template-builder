@@ -15,8 +15,8 @@ ic.configureOutput(prefix='LOG| ', includeContext=True)
 
 OS = platform()
 
-TEMPLATE_ESTILOS = "config/template_estilos.docx"
-JSON_COLUNAS = "config/colunas_aba_geral.json"
+TEMPLATE_ESTILOS = "appdata/template_estilos.docx"
+JSON_COLUNAS = "appdata/colunas_aba_geral.json"
 
 
 def erro_dependencia(arquivo, excecao):

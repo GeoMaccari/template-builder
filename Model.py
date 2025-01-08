@@ -64,7 +64,7 @@ class Modelo:
 
     def carregar_colunas(self, caminho: str):
         """
-        carrega o arquivo JSON de definições das colunas da aba Geral.
+        Carrega o arquivo JSON de definições das colunas da aba Geral.
         :param caminho: Caminho para o arquivo JSON contendo as definições das colunas.
         :returns: Nada.
         """
@@ -123,8 +123,10 @@ class Modelo:
         except Exception as e:
             ic(e)
             colunas_problema = [c for c in COLUNAS_ABA_LISTAS if c not in df_listas.columns]
-            raise Exception(f"Uma ou mais colunas essenciais estão faltando ou tiveram o cabeçalho modificado na aba de"
-                            f" Listas da tabela:\n\n{", ".join(colunas_problema)}")
+            raise Exception(
+                f"Uma ou mais colunas essenciais estão faltando ou tiveram o cabeçalho modificado na aba de Listas da "
+                f"tabela:\n\n{", ".join(colunas_problema)}"
+            )
 
         self.colunas["Unidade_geologica_1"]["dominio"] = lista_und_geo
         self.colunas["Unidade_geologica_2"]["dominio"] = lista_und_geo
@@ -371,7 +373,7 @@ class Modelo:
                 continue
 
             if montar_folhas_fase:
-                # Adiciona uma página de título antes do primeiro ponto de cada semestre/disciplina
+                # Adiciona uma página de título antes do primeiro ponto de cada fase
                 if linha.Fase != fase:
                     fase = linha.Fase
                     self.montar_pagina_fase(documento, fase)
@@ -394,11 +396,9 @@ class Modelo:
 
         for i in range(0, 15):
             if i == 10:
-                documento.add_paragraph(text='CADERNETA DE CAMPO COMPILADA',
-                                        style=self.estilos["titulo"])
+                documento.add_paragraph(text='CADERNETA DE CAMPO COMPILADA', style=self.estilos["titulo"])
             elif i == 13:
-                documento.add_paragraph(text='MAPEAMENTO GEOLÓGICO',
-                                        style=self.estilos["titulo_informacao"])
+                documento.add_paragraph(text='MAPEAMENTO GEOLÓGICO', style=self.estilos["titulo_informacao"])
             else:
                 documento.add_paragraph(text='', style=self.estilos['normal'])
 

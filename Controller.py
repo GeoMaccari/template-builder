@@ -131,8 +131,10 @@ class Controlador:
         if continuar_caderneta:
             self.interface.checkbox_folha_rosto.setChecked(False)
             self.caminho_caderneta = mostrar_dialogo_arquivo(
-                "Selecione a caderneta a ser continuada", "Documento do Word (*.docx);;",
-                "abrir", self.interface
+                "Selecione a caderneta a ser continuada",
+                "Documento do Word (*.docx);;",
+                "abrir",
+                self.interface
             )
         else:
             self.caminho_caderneta = None
@@ -151,25 +153,37 @@ class Controlador:
         :returns: Nada.
         """
         ic()
+        caminho_saida = None
 
         try:
             mostrar_cursor_espera()
+
             montar_folha_de_rosto = self.interface.checkbox_folha_rosto.isChecked()
             montar_folhas_semestre = self.interface.checkbox_folhas_semestre.isChecked()
             continuar_caderneta = self.caminho_caderneta
             ponto_inicio = self.interface.combobox_ponto_inicio.currentText()
             indice_ponto_inicio = self.modelo.df.index[self.modelo.df["Ponto"] == ponto_inicio]
-            self.modelo.gerar_caderneta(montar_folha_de_rosto, montar_folhas_semestre, indice_ponto_inicio, continuar_caderneta)
+
+            self.modelo.gerar_caderneta(
+                montar_folha_de_rosto, montar_folhas_semestre, indice_ponto_inicio, continuar_caderneta
+            )
+
             mostrar_cursor_espera(False)
-            caminho_saida = mostrar_dialogo_arquivo("Salvar caderneta", "Documento do Word (*.docx)",
-                                                    modo="salvar")
+
+            caminho_saida = mostrar_dialogo_arquivo(
+                "Salvar caderneta", "Documento do Word (*.docx)", modo="salvar"
+            )
             if caminho_saida != "":
                 self.modelo.salvar_caderneta(caminho_saida)
                 mostrar_popup("Caderneta criada com sucesso!")
+
         except PermissionError as exception:
-            mostrar_popup(f"Erro ao salvar a caderneta. Verifique se o arquivo {caminho_saida} não está aberto"
-                          f" em outro programa e se você possui privilégios para salvar na pasta selecionada.",
-                          tipo_msg="erro", parent=self.interface)
+            mostrar_popup(
+                f"Erro ao salvar a caderneta. Verifique se o arquivo {caminho_saida} não está aberto em outro"
+                f" programa e se você possui privilégios para salvar na pasta selecionada.",
+                tipo_msg="erro",
+                parent=self.interface
+            )
             ic(exception)
         except Exception as exception:
             mostrar_popup(f"{exception}", tipo_msg="erro", parent=self.interface)
@@ -214,8 +228,8 @@ def mostrar_popup(mensagem: str, tipo_msg: str = "notificacao", parent: QMainWin
     :returns: Nada.
     """
     tipos_popup = {
-        "notificacao": {"titulo": "Notificação", "icone": "config/icones/info.png"},
-        "erro":        {"titulo": "Erro",        "icone": "config/icones/error.png"}
+        "notificacao": {"titulo": "Notificação", "icone": "appdata/icones/info.png"},
+        "erro":        {"titulo": "Erro",        "icone": "appdata/icones/error.png"}
     }
     title = tipos_popup[tipo_msg]["titulo"]
     icon = QIcon(tipos_popup[tipo_msg]["icone"])

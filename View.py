@@ -17,7 +17,7 @@ class Interface(QMainWindow):
 
         # Constrói a interface -----
         self.setWindowTitle('Template Builder')
-        self.setWindowIcon(QIcon('config/icones/book.png'))
+        self.setWindowIcon(QIcon('appdata/icones/book.png'))
 
         # Rótulo do nome do arquivo
         self.rotulo_arquivo = QLabel("Selecione um arquivo .xlsx com os dados dos pontos mapeados.")
@@ -79,14 +79,17 @@ class Interface(QMainWindow):
 
         # Checkbox para marcar se gera ou não as folhas de título dos semestres
         self.checkbox_folhas_semestre = QCheckBox("Incluir folhas de título para cada fase")
-        self.checkbox_folhas_semestre.setToolTip("Gera páginas com o título da fase (ou disciplina) antes do primeiro "
-                                                 "ponto de cada fase")
+        self.checkbox_folhas_semestre.setToolTip(
+            "Gera páginas com o título da fase (ou disciplina) antes do primeiro ponto de cada fase"
+        )
         self.checkbox_folhas_semestre.setChecked(True)
 
         # Checkbox para marcar se o usuário deseja continuar uma caderneta já existente
         self.checkbox_continuar_caderneta = QCheckBox("Continuar caderneta existente")
-        self.checkbox_continuar_caderneta.setToolTip("Utilize esta opção para adicionar novos pontos a uma caderneta\n"
-                                                     "pré-existente (Ex: adicionar pontos do Map2 à caderneta do Map1)")
+        self.checkbox_continuar_caderneta.setToolTip(
+            "Utilize esta opção para adicionar novos pontos a uma caderneta\npré-existente (Ex: adicionar pontos do "
+            "Map2 à caderneta do Map1)"
+        )
 
         # Layout que organiza os widgets de seleção do ponto de início
         layout_selecao_ponto_inicio = QHBoxLayout()
@@ -149,41 +152,41 @@ class BotaoStatus(QPushButton):
 
     def definir_status(self, status: str):
         """
-        Define o ícone e a tooltip do botão. Conecta à função icone_status_clicado caso o status não seja "none" ou "ok".
+        Define o ícone e a tooltip do botão. Conecta à função icone_status_clicado se o status não for "none" ou "ok".
         :param status: O status da coluna ("none", "ok", "faltando", "problemas", "nulos" ou "dominio")
         :returns: Nada.
         """
         dic_botoes = {
             "none": {
-                "icone": QIcon("config/icones/circle.png"),
+                "icone": "appdata/icones/circle.png",
                 "tooltip": "Carregue um arquivo"
             },
             "ok": {
-                "icone": QIcon("config/icones/ok.png"),
+                "icone": "appdata/icones/ok.png",
                 "tooltip": "OK"
             },
             "coluna_faltando": {
-                "icone": QIcon("config/icones/not_ok.png"),
+                "icone": "appdata/icones/not_ok.png",
                 "tooltip": "Coluna não encontrada na tabela"
             },
             "fora_de_formato": {
-                "icone": QIcon("config/icones/not_ok.png"),
+                "icone": "appdata/icones/not_ok.png",
                 "tooltip": "A coluna contém dados com\nformato errado"
             },
             "celulas_vazias": {
-                "icone": QIcon("config/icones/not_ok.png"),
+                "icone": "appdata/icones/not_ok.png",
                 "tooltip": "A coluna não permite nulos,\nmas existem células vazias"
             },
             "valores_nao_permitidos": {
-                "icone": QIcon("config/icones/not_ok.png"),
+                "icone": "appdata/icones/not_ok.png",
                 "tooltip": "Algumas células contêm valores\nfora da lista de valores permitidos"
             },
             "fora_do_intervalo": {
-                "icone": QIcon("config/icones/not_ok.png"),
+                "icone": "appdata/icones/not_ok.png",
                 "tooltip": "Algumas células contêm valores\nnuméricos fora do intervalo permitido"
             },
             "valores_repetidos": {
-                "icone": QIcon("config/icones/not_ok.png"),
+                "icone": "appdata/icones/not_ok.png",
                 "tooltip": "Existem valores repetidos"
             }
         }
