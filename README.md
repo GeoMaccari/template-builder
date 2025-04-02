@@ -1,122 +1,154 @@
-<div align="center"/>
+<div align="center">
   <p>
     <h1>Template Builder</h1>
       <p>
-        Ferramenta para preenchimento semiautomático dos cabeçalhos da caderneta de campo compilada para a disciplina de Mapeamento Geológico do curso de graduação
-        em Geologia da UFSC.
+        Ferramenta para preenchimento semiautomático dos cabeçalhos da caderneta de campo compilada para a disciplina de Mapeamento Geológico do curso de graduação em Geologia da UFSC.
       </p>
       <a href="https://github.com/FrostPredator/template-builder/releases/latest"><img alt="Static Badge" src="https://img.shields.io/badge/Download%20-%20Vers%C3%A3o%20mais%20recente%20-%20%231082c3"></a>
       <img alt="Static Badge" src="https://img.shields.io/github/downloads/FrostPredator/template-builder/total">
       </br>
-  <p>
+  </p>
 </div>
 
+(INSERIR IMAGEM DA INTERFACE)
 
+## Guia de Uso
 
-![panel](https://github.com/FrostPredator/template-builder/assets/114439033/5fed2970-3bc1-433f-8cb7-32f1ce5bd38d)
+### Para Coordenadores de Disciplina
 
-## Instruções de uso
- * [Preenchendo a tabela da caderneta](#preenchendo-a-tabela-da-caderneta)
- * [Gerando uma nova caderneta](#gerando-uma-nova-caderneta)
- * [Adicionando novos pontos a uma caderneta pré-existente](#adicionando-novos-pontos-a-uma-caderneta)
-### Preenchendo a tabela da caderneta
-#### Passo 1: Configure a lista de opções
-- Abra o arquivo “tabela_caderneta.xlsx” utilizando o Microsoft Office Excel ou outro software de edição de planilhas.
-- Acesse a segunda aba do arquivo (planilha “Listas”).
+#### 1. Configurando as listas de opções
 
-![aba_listas](https://github.com/FrostPredator/template-builder/assets/114439033/311d51e3-5be9-40ae-a907-10797058d486)
+...
 
-- Nos campos delimitados, preencha as **unidades** (suítes, complexos, grupos, etc.), **unidades litoestratigráficas** (formações, granitos, unidades, etc.) e **estruturas** observadas em campo. **Ao preencher a lista de estruturas, em específico, não use espaços, acentos e cedilha. Insira o nome da estrutura, seguido pela sigla dela entre parênteses**, conforme os exemplos que aparecem abaixo da lista. **Não recorte células na lista de estruturas**, pois isso desconfigurará os cabeçalhos das colunas de estruturas na planilha Geral.
+### Para Alunos de Mapeamento
 
-![preenchimento_listas](https://github.com/FrostPredator/template-builder/assets/114439033/0704e83e-39bc-461d-a248-388d32692220)
+#### 1. Preenchendo a tabela
+A tabela deve ser preenchida diretamente a partir dos dados da caderneta de campo. Cada linha inserida na tabela corresponde a um ponto de campo. Siga as instruções de preenchimento abaixo para cada coluna.
 
-<sub>Obs: A sigla da estrutura deve estar entre parênteses para que a ferramenta de preenchimento do template da caderneta possa detectá-la. Caso não haja sigla, o nome completo inserido será utilizado.</sub>
+> [!IMPORTANT]
+> **NÃO insira ou exclua colunas manualmente.**
+>
+> **NÃO edite os nomes das colunas.**
+>
+> **NÃO troque a ordem das colunas.**
+>
+> Você **pode** utilizar acentos, cedilhas e caracteres especiais no preenchimento dos campos.
+>
+> **Salve a tabela usando os formatos .xlsx ou .xlsm.**
 
-As listas de unidades aparecerão depois como opções para o preenchimento desses campos na aba Geral:
+> [!NOTE]
+> Para a geração do template da caderneta, é necessário apenas o preenchimento da aba "Geral" da planilha. As abas "Litologia", "Estruturas_planares" e "Estruturas lineares" podem ser preenchidas em etapas posteriores para a geração de um arquivo de pontos para uso em SIG.
 
-![image](https://github.com/FrostPredator/template-builder/assets/114439033/af462b47-e22f-4f01-b565-ce70b106f32b)
+> [!TIP]
+> Evite colar dados de outras tabelas e softwares. **Quando colar quaisquer dados, utilize a colagem apenas de valores**. No Microsoft Office Excel, essa opção pode ser encontrada clicando com o botão direito do mouse na célula alvo da colagem, acessando a opção "Colar Especial..." e selecionando "Valores" (símbolo de prancheta com "123"). Isso impede que a formatação de validação dos dados seja substituída ao colar.
 
-O preenchimento da lista de estruturas, por outro lado, adiciona as estruturas inseridas como colunas na primeira aba:
+##### Aba "Geral"
 
-![image](https://github.com/FrostPredator/template-builder/assets/114439033/3d045c8f-f772-4209-8337-86465ab0aad9)
+Esta planilha apresenta os dados gerais e de localização do afloramento.
 
-#### Passo 2: Preencha os campos da tabela
-A tabela deve ser preenchida diretamente a partir dos dados da caderneta de campo.
-Evite colar dados de outras tabelas e softwares. **Quando colar quaisquer dados, utilize a colagem apenas de valores**. No Microsoft Office Excel, essa opção pode ser encontrada clicando com o botão direito do mouse na célula alvo da colagem, acessando a opção “Colar Especial...” e selecionando “Valores” (símbolo de prancheta com “123”). Isso impede que a formatação de validação dos dados seja substituída ao colar.
+| **Campo**               | **Descrição** |
+|-------------------------|--------------|
+| **Ponto**               | O código do ponto de campo. Ex: "PTI-2001". Preencha na ordem de numeração. **Não deixe em branco**. |
+| **Faixa**               | A área/faixa do projeto a qual o ponto pertence. **Não deixe em branco**. |
+| **Fase**                | A disciplina ou fase do projeto na qual o ponto foi visitado pela primeira vez. Ex: "Mapeamento Geológico I" ou "Mapeamento Geológico II". Preencha apenas de forma contínua (na ordem das fases do projeto). **Não deixe em branco**. |
+| **SRC**                 | O sistema de referência das coordenadas. Ex: "WGS 84 / UTM zone 22S". **Não deixe em branco**. |
+| **Easting**             | A coordenada UTM leste (*easting*) do ponto, em metros. Insira apenas números. **Não deixe em branco**. |
+| **Northing**            | A coordenada UTM norte (*northing*) do ponto, em metros. Insira apenas números. **Não deixe em branco**. |
+| **Altitude**            | A altitude do ponto, em metros. Insira apenas números. |
+| **UF**                  | A sigla da unidade da federação na qual o ponto está inserido. Ex: "SC". |
+| **Municipio**           | O município no qual o ponto está inserido. Ex: "Botuverá". |
+| **Toponimia**           | A toponímia do local ou um ponto de referência próximo ao ponto. Utilize apenas referências duradouras e que possam ajudar alguém que nunca esteve no local a encontrar o ponto no futuro. |
+| **Data**                | A data da primeira visita ao ponto, no formato dia/mês/ano. Ex: "01/08/1997". **Não deixe em branco**. |
+| **Equipe**              | Os nomes dos integrantes da equipe que visitou o ponto, incluindo professores, separados por vírgula e espaço. Utilize apenas o último sobrenome de cada integrante, e nenhum nome do meio. Ex: "Ana Sutili, Gabriel Maccari, Vicente Wetter, Luana Florisbal". **Não deixe em branco**. |
+| **Ponto_de_controle**   | Se o ponto em questão é apenas um ponto de controle, ou se possui afloramento. Preencha com "Sim" ou "Não" (sem aspas, com acento, inicial maiúscula). Se o ponto possui afloramento e foi possível determinar a litologia, preencha com "Não". **Não deixe em branco**. |
+| **Numero_de_amostras**  | O número de amostras coletadas no ponto. Preencha apenas com números inteiros. Preencha com zero caso nenhuma amostra tenha sido coletada. **Não deixe em branco**. |
+| **Amostra_laminada**    | Se foram confeccionadas lâminas petrográficas a partir de amostras do afloramento. Preencha com "Sim" ou "Não" (sem aspas, com acento, inicial maiúscula). **Não deixe em branco**. |
 
-Você **pode** utilizar acentos, cedilhas e caracteres especiais no preenchimento dos campos.
+> [!NOTE]
+> Os campos a seguir devem ser preenchidos **apenas** nos pontos que contêm afloramento, e devem ser deixados em branco nos pontos de controle.
 
-**NÃO insira ou exclua colunas manualmente.**
+| **Campo**                          | **Descrição** |
+|------------------------------------|--------------|
+| **Tipo_de_afloramento**            | O tipo de afloramento presente no ponto em questão. Ex: "Corte de estrada", "Barranco", "Drenagem", etc. **Não preencha nos pontos de controle**. |
+| **In_situ**                        | Se as rochas descritas no ponto encontravam-se in situ ou se foram transportadas de outro local (como no caso de matacões rolados morro abaixo ou seixos em uma drenagem). Preencha com "Sim" ou "Não" (sem aspas, com acento, inicial maiúscula). **Não preencha nos pontos de controle**. |
+| **Grau_de_intemperismo**           | O grau de alteração do afloramento frente às intempéries. Preencha com "Baixo", "Médio" ou "Alto" (sem aspas, com acento, inicial maiúscula). **Não preencha nos pontos de controle**. |
+| **Unidade_geologica_N**            | A unidade maior na qual a litologia principal(1)/secundária(2) do ponto está contida. O preenchimento deste campo deve ser feito conforme as unidades listadas na segunda aba da planilha. Ex: "Complexo Metamórfico Brusque", "Suíte Valsungana", "Coberturas Cenozoicas", etc. Caso o ponto em questão seja um ponto de contato entre duas unidades, acrescente na aba de Listas uma unidade mista, separada por "/" (Ex: "Grupo Itararé / Grupo Itajaí"), e então preencha o ponto com a unidade adicionada. **Não preencha nos pontos de controle**. |
+| **Unidade_litoestratigrafica_N**   | A unidade litoestratigráfica/litodêmica na qual a litologia principal(1)/secundária(2) do ponto está contida. O preenchimento deste campo deve ser feito conforme as unidades litoestratigráficas listadas na segunda aba da planilha. Ex: "Formação Rio Bonito", "Granodiorito Estaleiro", etc. Caso o ponto em questão seja um ponto de contato entre duas unidades, acrescente na aba de Listas uma unidade mista, separada por "/" (Ex: "Formação Taciba / Formação Campo Mourão"), e então preencha o ponto com a unidade adicionada. **Não preencha nos pontos de controle**. |
 
-**NÃO edite os nomes das colunas.**
+##### Aba "Litologia"
 
-**NÃO troque a ordem das colunas.**
+Esta planilha apresenta dados litológicos das rochas encontradas no campo. Há espaço para descrição de duas litologias, que estão separadas pela numeração ao fim dos nomes das colunas (Ex: *Classe_de_rocha_1* e *Classe_de_rocha_2*). Caso sejam litologias de unidades distintas, elas devem estar descritas na mesma ordem que as suas respectivas unidades foram listadas na aba Geral.
 
-**Salve a tabela usando os formatos .xlsx ou .xlsm.**
+| **Campo**                       | **Descrição** |
+|---------------------------------|--------------|
+|**Ponto** | O código do ponto de campo. Ex: "PTI-2001". Preencha na ordem de numeração, e apenas com códigos já existentes na aba Geral. **Não deixe em branco**.
 
-**Siga as instruções de preenchimento abaixo para cada coluna.**
+> [!NOTE]
+> Os campos a seguir devem ser preenchidos **apenas** nos pontos que contêm afloramento, e devem ser deixados em branco nos pontos de controle.
 
-- **Ponto:** O código do ponto de campo. Ex: PTI-2001. **Não deixe em branco**. Preencha na ordem de numeração.
-- **Disciplina:** A disciplina na qual o ponto foi visitado pela primeira vez. Preencha com “Mapeamento Geológico I” ou “Mapeamento Geológico II”. **Não deixe em branco**. Preencha apenas de forma contínua (depois que preencher uma linha com “Mapeamento Geológico II”, não preencha nenhuma linha seguinte com “Mapeamento Geológico I”).
-- **SRC:** O sistema de referência de coordenadas configurado no GPS utilizado em campo. Ex: "WGS 84 / UTM zone 22S". **Não deixe em branco**.
-- **Easting:** A coordenada UTM leste (easting) do ponto, em metros. Insira apenas números. **Não deixe em branco**.
-- **Northing:** A coordenada UTM norte (northing) do ponto, em metros. Insira apenas números. **Não deixe em branco**.
-- **Altitude:** A altitude do ponto, em metros. Insira apenas números.
-- **Toponimia:** A toponímia do local ou um local de referência próximo ao ponto. Utilize apenas referências duradouras e que possam ajudar alguém que nunca esteve no local a encontrar o ponto no futuro.
-- **Data:** A data de visita ao ponto, no formato dia/mês/ano. Ex: "01/08/1997". **Não deixe em branco**.
-- **Equipe:** Os nomes dos integrantes da equipe que visitou o ponto, incluindo professores, separados por vírgula e espaço. Utilize apenas o último sobrenome de cada integrante, e nenhum nome do meio. Ex: "Ana Sutili, Gabriel Maccari, Vicente Wetter, Luana Florisbal". **Não deixe em branco**.
-- **Ponto_de_controle:** Se o ponto em questão é apenas um ponto de controle, ou se possui afloramento. Preencha com “Sim” ou “Não” (sem aspas, com acento, inicial maiúscula). **Não deixe em branco**. Se o ponto possui afloramento e foi possível determinar a litologia, preencha com "Não".
-- **Numero_de_amostras:** O número de amostras coletadas no ponto. Preencha apenas com números inteiros. Preencha com zero caso nenhuma amostra tenha sido coletada. **Não deixe em branco**.
-- **Possui_croquis:** Se foram feitos croquis para ilustrar alguma feição no ponto (e se eles serão incluídos na caderneta). Preencha com “Sim” ou “Não” (sem aspas, com acento, inicial maiúscula). **Não deixe em branco**.
-- **Possui_fotos:** Se foram tiradas fotos do ponto (e se elas serão incluídas na caderneta). Preencha com “Sim” ou “Não” (sem aspas, com acento, inicial maiúscula). **Não deixe em branco**.
+| **Campo**                           | **Descrição** |
+|-------------------------------------|--------------|
+| **Classe_de_rocha_N**               | A classe de rocha na qual a litologia se encaixa. Preencha com "Ígnea", "Sedimentar", "Metamórfica" ou "Sedimentar inconsolidada". |
+| **Cor_N**                           | A coloração geral observada na rocha. Ex: "Marrom avermelhada". |
+| **Estrutura_N**                     | A estrutura observada na rocha. Quando for observada mais de uma estrutura, preencha todas elas separadas por vírgula e espaço, ordenando da mais importante para a menos importante. Ex: "Xistosidade, Bandamento gnáissico". |
+| **Textura_N**                       | A textura observada na rocha. Quando for observada mais de uma textura, preencha todas elas separadas por vírgula e espaço, ordenando da mais importante para a menos importante. Ex: "Granoblástica, Lepidoblástica". |
+| **Granulacao_N**                    | A granulometria dos minerais observados na rocha. Preencha com "Muito fina", "Fina", "Média", "Grossa", "Muito grossa" ou uma variação entre estas (Ex: "Fina a grossa"). |
+| **Minerais_principais_N**           | Os principais minerais identificados na assembleia mineral da rocha, em ordem da maior para a menor abundância, separados por vírgula e espaço. Inicie os nomes de todos os minerais com letra maiúscula. Ex: "Quartzo, Feldspato alcalino, Plagioclásio, Biotita, Zircão". |
+| **Classificacao_litologia_N**       | A nomenclatura completa da rocha, incluindo sua mineralogia principal, nome raiz e outros apêndices necessários. Os minerais devem estar ordenados da menor para a maior abundância (minerais mais abundantes ficam mais próximos do nome raiz) e separados por traço. Minerais essenciais para a classificação devem ser omitidos (quartzo, feldspato alcalino e plagioclásio, por exemplo, não são listados na nomenclatura de um granito). Ex: "Biotita sienogranito com apatita". |
+| **Observacao_N**                    | Quaisquer outras informações importantes sobre a litologia em questão, até um máximo de 254 caracteres. |
 
-<sub>Obs: Os campos a seguir (Tipo_de_afloramento, In_situ, Grau_de_intemperismo, Unidade, Unidade_litoestratigrafica e campos de medidas estruturais) devem ser preenchidos **apenas** nos pontos que contêm afloramento, e devem ser deixados em branco nos pontos de controle.</sub>
+##### Aba "Estruturas Planares"
 
-- **Tipo_de_afloramento:** O tipo de afloramento presente no ponto em questão. Ex: "Corte de estrada", "Barranco", "Drenagem", etc. **Não preencha nos pontos de controle**.
-- **In_situ:** Se as rochas descritas no ponto encontravam-se in situ ou se foram transportadas de outro local (como no caso de matacões rolados morro abaixo ou seixos em uma drenagem). Preencha com “Sim” ou “Não” (sem aspas, com acento, inicial maiúscula). **Não preencha nos pontos de controle**.
-- **Grau_de_intemperismo:** O grau de alteração do afloramento frente às intempéries. Preencha com “Baixo”, “Médio” ou “Alto” (sem aspas, com acento, inicial maiúscula). **Não preencha nos pontos de controle**.
-- **Unidade:** A unidade maior na qual a litologia principal do ponto está contida. O preenchimento deste campo deve ser feito conforme as unidades listadas na segunda aba da planilha. Ex: "Complexo Metamórfico Brusque", "Suíte Valsungana", "Coberturas Cenozoicas", etc. Caso o ponto em questão seja um ponto de contato entre duas unidades, acrescente na aba de Listas uma unidade mista, separada por “/” (Ex: "Grupo Itararé / Grupo Itajaí"), e então preencha o ponto com a unidade adicionada. **Não preencha nos pontos de controle**.
-- **Unidade_litoestratigrafica:** A unidade litoestratigráfica específica na qual a litologia principal do ponto está contida. O preenchimento deste campo deve ser feito conforme as unidades litoestratigráficas listadas na segunda aba da planilha. Ex: "Formação Rio Bonito", "Granodiorito Estaleiro", etc. Caso o ponto em questão seja um ponto de contato entre duas unidades, acrescente na aba de Listas uma unidade mista, separada por “/” (Ex: "Formação Taciba / Formação Campo Mourão"), e então preencha o ponto com a unidade adicionada. **Não preencha nos pontos de controle**.
-- **_Campos de estruturas_:** Preencha com as medidas tiradas para a estrutura em questão, separadas por vírgula e espaço. Caso haja mais de uma medida da mesma estrutura no mesmo ponto, separe-as com vírgula e espaço, ordenando da mais confiável para a mais duvidosa. No caso de medidas planares, use preferencialmente a notação sentido de mergulho/mergulho (Ex: "180/30", "020/40"). Para medidas lineares, utilize mergulho-sentido de mergulho (Ex: "55-340", "70-080"). Use sempre 3 dígitos para o sentido e 2 dígitos para o mergulho. **Não preencha nos pontos de controle**.
+Esta planilha apresenta dados de medidas de atitude de estruturas planares (Ex: Acamadamento sedimentar, foliação metamórfica, etc.), no formato sentido de mergulho/ângulo de mergulho (*dip direction*/*dip*).
 
-### Gerando uma nova caderneta
+Quando uma estrutura é preenchida nos espaços de estruturas planares da aba "Listas", dois campos aparecem aqui para a estrutura em questão, sendo um deles para o sentido de mergulho (*dip direction*) da estrutura e outro para o ângulo de mergulho (*dip*).
+
+| **Campo**         | **Descrição**                                                                             |
+|-------------------|-------------------------------------------------------------------------------------------|
+| **Ponto**         | O ponto onde a medida foi realizada.                                                      |
+| **Estrutura_std** | O sentido de mergulho medido para a estrutura. Preencha apenas com números entre 0 e 360. |
+| **Estrutura_mgl** | O ângulo de mergulho medido para a estrutura. Preencha apenas com números entre 0 e 90.   |          
+
+##### Aba "Estruturas Lineares"
+
+Esta planilha apresenta dados de medidas de atitude de estruturas lineares (Ex: Lineação mineral, eixo de dobra, etc.), no formato ângulo de mergulho/sentido de mergulho (*dip*/*dip direction*)
+
+| **Campo**         | **Descrição**                                                                             |
+|-------------------|-------------------------------------------------------------------------------------------|
+| **Ponto**         | O ponto onde a medida foi realizada.                                                      |
+| **Estrutura_mgl** | O ângulo de mergulho medido para a estrutura. Preencha apenas com números entre 0 e 90.   | 
+| **Estrutura_std** | O sentido de mergulho medido para a estrutura. Preencha apenas com números entre 0 e 360. |
+
+> [!NOTE]
+> Perceba que a ordem dos componentes das medidas é diferente para estruturas planares e lineares.
+
+#### 2. Gerando uma nova caderneta
 - Execute o Template Builder (arquivo .exe).
-- Clique no botão “Selecionar” e escolha a tabela preenchida nos passos anteriores.
-A ferramenta irá analisar se os dados de cada coluna essencial estão no formato correto e mostrará em sua interface. Colunas no formato correto terão o ícone ![ok](https://github.com/FrostPredator/template-builder/assets/114439033/86bfa387-320b-44e7-a71e-f8a474fd1ce2) ao lado enquanto colunas com problemas aparecerão com o ícone ![not_ok](https://github.com/FrostPredator/template-builder/assets/114439033/3e9c5ee1-99d1-4185-b1a9-4e4001d33f09):
- 
-![TB teste](https://github.com/FrostPredator/template-builder/assets/114439033/6b4234b8-be9f-4e04-9542-d9b26c64deef)
+- Clique no botão "Selecionar" e escolha a tabela preenchida nos passos anteriores.
+A ferramenta irá analisar se os dados de cada coluna estão no formato correto e mostrará em sua interface. Colunas no formato correto terão o ícone ![ok](https://github.com/FrostPredator/template-builder/assets/114439033/86bfa387-320b-44e7-a71e-f8a474fd1ce2) ao lado enquanto colunas com problemas aparecerão com o ícone ![not_ok](https://github.com/FrostPredator/template-builder/assets/114439033/3e9c5ee1-99d1-4185-b1a9-4e4001d33f09):
+
+(INSERIR IMAGEM DA INTERFACE)
 
 Passar o mouse sobre o ícone revela que tipo de problema está presente na coluna. Também é possível clicar sobre os ícones vermelhos para ver detalhes sobre o problema identificado e em quais linhas, especificamente, ele ocorre:
 
-![popup](https://github.com/FrostPredator/template-builder/assets/114439033/b8b9ef75-3d5f-4834-a239-f26007cbc5e1)
+(INSERIR IMAGEM DA INTERFACE)
 
 A ferramenta apenas liberará a geração da caderneta quando todos os problemas na tabela forem resolvidos.</br>
-Recomenda-se que seja utilizada apenas a tabela fornecida junto à ferramenta para o preenchimento. Utilizar tabelas em outros formatos pode impossibilitar ou limitar as funcionalidades da ferramenta.
-- Com todas as colunas devidamente corrigidas, clique no botão “Gerar caderneta” para preencher o template com os dados da tabela. 
+Recomenda-se que seja utilizada apenas a tabela fornecida junto à ferramenta para o preenchimento. Utilizar tabelas em outros formatos irá impossibilitar ou limitar as funcionalidades da ferramenta.
+- Com todas as colunas devidamente corrigidas, clique no botão "Gerar caderneta" para preencher o template com os dados da tabela. 
 - Depois disso, em um editor de texto, basta adicionar as descrições dos afloramentos e amostras, assim como os painéis de croquis e fotos.
 
-<sub>Obs: Devido a diferenças de software, podem haver problemas de formatação caso a caderneta seja editada no Google Docs ou LibreOffice. Recomenda-se que seja utilizado o Microsoft Office Word ou, no caso de alternativas gratuitas, o ONLYOFFICE ou Softmaker FreeOffice. Para edição colaborativa, a versão online do Word pode ser usada gratuitamente.</sub>
+> [!TIP]
+> Obs: Devido a diferenças de software, podem haver problemas de formatação caso a caderneta seja editada no Google Docs ou LibreOffice. Recomenda-se que seja utilizado o Microsoft Office Word ou, no caso de alternativas gratuitas, o ONLYOFFICE ou Softmaker FreeOffice. Para edição colaborativa, a versão online do Word pode ser usada gratuitamente.</sub>
 
-### Adicionando novos pontos a uma caderneta
+#### 3. Adicionando novos pontos a uma caderneta
 Para adicionar novos pontos a uma caderneta gerada anteriormente (como quando é preciso adicionar pontos do Map2 à caderneta já preenchida do Map1):
 
 - Execute o Template Builder (arquivo .exe).
-- Clique no botão “Selecionar” e escolha a tabela preenchida com os novos pontos (você pode utilizar a tabela contendo todos os pontos, tanto do Map1 quanto do Map2).
+- Clique no botão "Selecionar" e escolha a tabela preenchida com os novos pontos (você pode utilizar a tabela contendo todos os pontos, tanto do Map1 quanto do Map2).
 - Verifique e corrija quaisquer problemas contidos nos dados da tabela e indicados na interface, conforme explicado na seção anterior.
 - Desmarque a opção "Incluir folha de rosto no início da caderneta".
 - Marque a opção "Continuar caderneta existente". Uma janela de seleção de arquivo surgirá, para que você selecione a caderneta (arquivo .docx) à qual deseja adicionar os novos pontos.
 - Na caixa "Iniciar a partir do ponto", escolha o ponto de início dos dados novos.
 - Clique em "Gerar caderneta", aguarde o processamento e escolha o local de salvamento do arquivo.
 
-## Erros comuns durante a execução da ferramenta
-**“Dependência não encontrada: [...]/recursos_app/modelos/template_estilos.docx. Restaure o arquivo a partir do repositório e tente novamente.” (ao abrir a ferramenta)**
-
-A ferramenta depende de um arquivo “template_estilos.docx” com estilos pré-definidos para funcionar. Esse arquivo se encontra na pasta recursos_app/modelos, que deve ficar junto ao executável da ferramenta. Caso o arquivo ou a pasta em questão sejam excluídos ou movidos para outro local, ocorrerá esse erro, e basta restaurá-los ao local original para solucioná-lo.
-
-**Os ícones da interface não estão sendo exibidos.**
-
-De forma similar ao erro anterior, basta restaurar os ícones da interface para a pasta recursos_app/icones a partir do arquivo baixado ou do repositório.
-
-**“ERRO: [Errno 13] Permission denied: [...].docx” (ao salvar a caderneta)**
-
-Caso você já tenha gerado a caderneta anteriormente com a ferramenta e esteja gerando um novo arquivo no mesmo caminho, verifique se o arquivo anterior não está aberto em outro programa (Ex: Word). Se não for o caso, tente escolher outra pasta para salvar o arquivo (Ex: Área de trabalho, Downloads, Documentos).
