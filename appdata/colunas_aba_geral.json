@@ -142,7 +142,7 @@
     },
     "Amostra_laminada": {
         "dtype": "object",
-        "nulo_ok": false,
+        "nulo_ok": true,
         "dominio": [
             "Sim",
             "Não"
