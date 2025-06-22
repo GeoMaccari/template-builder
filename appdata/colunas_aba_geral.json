@@ -185,7 +185,7 @@
         "intervalo": null,
         "unico": false
     },
-    "Unidade_litoestratigrafica_1": {
+    "Unidade_lito_1": {
         "dtype": "object",
         "nulo_ok": true,
         "dominio": null,
@@ -199,7 +199,7 @@
         "intervalo": null,
         "unico": false
     },
-    "Unidade_litoestratigrafica_2": {
+    "Unidade_lito_2": {
         "dtype": "object",
         "nulo_ok": true,
         "dominio": null,

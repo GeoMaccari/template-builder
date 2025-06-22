@@ -3,6 +3,8 @@
 
 import sys
 from platform import platform
+from typing import Any
+
 from PyQt6.QtWidgets import QApplication
 from docx.opc.exceptions import PackageNotFoundError
 from icecream import ic
@@ -19,7 +21,7 @@ TEMPLATE_ESTILOS = "appdata/template_estilos.docx"
 JSON_COLUNAS = "appdata/colunas_aba_geral.json"
 
 
-def erro_dependencia(arquivo, excecao):
+def erro_dependencia(arquivo, excecao) -> None:
     ic(excecao)
     mostrar_popup(
         f"Dependência não encontrada: {arquivo}. Restaure o arquivo a partir do repositório e tente novamente.",

@@ -12,7 +12,7 @@ from Controller import mostrar_popup
 
 COLUNAS_ABA_LISTAS = (
     "Unidades geológicas",
-    "Unidades litoestratigráficas",
+    "Unidades litoestratigráficas/litodêmicas",
     "Estruturas planares",
     "Estruturas lineares",
     "Áreas/Faixas",
@@ -117,7 +117,7 @@ class Modelo:
 
         try:
             lista_und_geo = df_listas["Unidades geológicas"].head(30).dropna().to_list()
-            lista_und_lito = df_listas["Unidades litoestratigráficas"].head(30).dropna().to_list()
+            lista_und_lito = df_listas["Unidades litoestratigráficas/litodêmicas"].head(30).dropna().to_list()
             lista_faixas = df_listas["Áreas/Faixas"].head(30).dropna().to_list()
             lista_fases = df_listas["Fases"].head(30).dropna().to_list()
         except Exception as e:
@@ -130,8 +130,8 @@ class Modelo:
 
         self.colunas["Unidade_geologica_1"]["dominio"] = lista_und_geo
         self.colunas["Unidade_geologica_2"]["dominio"] = lista_und_geo
-        self.colunas["Unidade_litoestratigrafica_1"]["dominio"] = lista_und_lito
-        self.colunas["Unidade_litoestratigrafica_2"]["dominio"] = lista_und_lito
+        self.colunas["Unidade_lito_1"]["dominio"] = lista_und_lito
+        self.colunas["Unidade_lito_2"]["dominio"] = lista_und_lito
         self.colunas["Faixa"]["dominio"] = lista_faixas
         self.colunas["Fase"]["dominio"] = lista_fases
 
@@ -447,8 +447,8 @@ class Modelo:
         und_geo_2 = linha.Unidade_geologica_2 if not pandas.isna(linha.Unidade_geologica_2) else None
         und_geo = f"{und_geo_1} / {und_geo_2}" if (und_geo_1 and und_geo_2) and (und_geo_1 != und_geo_2) else und_geo_1
 
-        und_lito_1 = linha.Unidade_litoestratigrafica_1 if not pandas.isna(linha.Unidade_litoestratigrafica_1) else "<Insira aqui a unidade>"
-        und_lito_2 = linha.Unidade_litoestratigrafica_2 if not pandas.isna(linha.Unidade_litoestratigrafica_2) else None
+        und_lito_1 = linha.Unidade_lito_1 if not pandas.isna(linha.Unidade_lito_1) else "<Insira aqui a unidade>"
+        und_lito_2 = linha.Unidade_lito_2 if not pandas.isna(linha.Unidade_lito_2) else None
         und_lito = f"{und_lito_1} / {und_lito_2}" if (und_lito_1 and und_lito_2) and (und_lito_1 != und_lito_2) else und_lito_1
 
         tipo_afloramento = linha.Tipo_de_afloramento if not pandas.isna(linha.Tipo_de_afloramento) else "-"
@@ -470,7 +470,7 @@ class Modelo:
             'GRAU DE INTEMPERISMO:': f"{grau_intemperismo if linha.Ponto_de_controle == "Não" else "-"}",
             'AMOSTRAS:': f"{amostras if linha.Ponto_de_controle == "Não" else "-"}",
             'UNIDADE GEOLÓGICA:': f"{und_geo if linha.Ponto_de_controle == "Não" else "-"}",
-            'UNIDADE LITOESTRATIGRÁFICA:': f"{und_lito if linha.Ponto_de_controle == "Não" else "-"}",
+            'UNIDADE LITOESTRATIGRÁFICA OU LITODÊMICA:': f"{und_lito if linha.Ponto_de_controle == "Não" else "-"}",
         }
 
         # Preenche a tabela de cabeçalho
@@ -504,7 +504,7 @@ class Modelo:
         if linha.Numero_de_amostras > 0:
             abc = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
             for i in range(0, linha.Numero_de_amostras):
-                letra = abc[i]
+                letra = abc[i] if linha.Numero_de_amostras > 1 else ""
                 documento.add_paragraph(
                     text=f"• {linha.Ponto}{letra}: <Descrição da amostra aqui>",
                     style=self.estilos["normal"]
@@ -516,11 +516,13 @@ class Modelo:
         # Adiciona a seção de medidas estruturais
         documento.add_paragraph(text="MEDIDAS ESTRUTURAIS", style=self.estilos["subtitulo"])
         documento.add_paragraph(text="• <sigla> = <medida>", style=self.estilos["normal"])
+        """
         documento.add_paragraph(
             text=f"Use a notação xxx/yy para estruturas planares e yy-xxx para estruturas lineares, onde xxx = sentido "
                  f"de mergulho (dip direction ou trend) e yy = ângulo de mergulho (dip ou plunge). Ex: Lb = 20-180.",
             style=self.estilos["anotacao"]
         )
+        """
         documento.add_paragraph(text=f"REMOVA esta seção caso não haja medidas.", style=self.estilos["anotacao"])
 
         # Adiciona a seção de croquis
