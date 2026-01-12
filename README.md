@@ -16,7 +16,15 @@
 
 ### 1. Configurando as listas de opções
 
-Em construção...
+Uma das maiores vantagens do Template Builder é a padronização no preenchimento de dados de campo, o que auxilia na integração desses dados em etapas posteriores. Para garantir essa padronização, é preciso que as opções de preenchimento dos campos da tabela sejam configuradas antes que ela seja distribuída aos alunos. O fluxo de uso da ferramenta segue a seguinte ordem:
+
++ Em uma etapa pós-campo, um responsável pelo projeto de mapeamento configura e distribui a tabela aos alunos.
++ Os alunos preenchem a tabela com os dados de campo.
++ Com a tabela preenchida, os alunos utilizam o Template Builder para gerar um modelo de caderneta de campo compilada com cabeçalhos pré-preenchidos.
++ Os alunos preenchem as informações restantes de cada ponto de campo/afloramento (descrição, fotos, croquis, medidas estruturais, amostras coletadas) manualmente no documento gerado.
++ A tabela de pontos preenchida anteriormente pode ser reutilizada para elaborar um mapa de pontos.
+
+**Em construção...**
 
 ## Guia de uso para Alunos de Mapeamento
 
@@ -88,31 +96,6 @@ Esta planilha apresenta dados litológicos das rochas encontradas no campo. Há 
 | **Minerais_principais_N**           | As siglas dos principais minerais identificados na assembleia mineral da rocha, em ordem da maior para a menor abundância, separados por traço. Inicie as siglas de todos os minerais com letra maiúscula. Ex: "Qz-Kfs-Pl-Bt-Zr". |
 | **Classificacao_litologia_N**       | A nomenclatura completa da rocha, incluindo sua mineralogia principal, nome raiz e outros apêndices necessários. Os minerais devem estar ordenados da menor para a maior abundância (minerais mais abundantes ficam mais próximos do nome raiz) e separados por traço. Minerais essenciais para a classificação devem ser omitidos (quartzo, feldspato alcalino e plagioclásio, por exemplo, não são listados na nomenclatura de um granito). Ex: "Bt-Ms sienogranito com apatita". |
 | **Observacao_N**                    | Quaisquer outras informações importantes sobre a litologia em questão, até um máximo de 254 caracteres. |
-
-#### Aba "Estruturas Planares"
-
-Esta planilha apresenta dados de medidas de atitude de estruturas planares (Ex: Acamadamento sedimentar, foliação metamórfica, etc.), no formato sentido de mergulho/ângulo de mergulho (*dip direction*/*dip*).
-
-Quando uma estrutura é preenchida nos espaços de estruturas planares da aba "Listas", dois campos aparecem aqui para a estrutura em questão, sendo um deles para o sentido de mergulho (*dip direction*) da estrutura e outro para o ângulo de mergulho (*dip*).
-
-| **Campo**         | **Descrição**                                                                             |
-|-------------------|-------------------------------------------------------------------------------------------|
-| **Ponto**         | O ponto onde a medida foi realizada.                                                      |
-| **Estrutura_std** | O sentido de mergulho medido para a estrutura. Preencha apenas com números entre 0 e 360. |
-| **Estrutura_mgl** | O ângulo de mergulho medido para a estrutura. Preencha apenas com números entre 0 e 90.   |          
-
-#### Aba "Estruturas Lineares"
-
-Esta planilha apresenta dados de medidas de atitude de estruturas lineares (Ex: Lineação mineral, eixo de dobra, etc.), no formato ângulo de mergulho/sentido de mergulho (*dip*/*dip direction*)
-
-| **Campo**         | **Descrição**                                                                             |
-|-------------------|-------------------------------------------------------------------------------------------|
-| **Ponto**         | O ponto onde a medida foi realizada.                                                      |
-| **Estrutura_mgl** | O ângulo de mergulho medido para a estrutura. Preencha apenas com números entre 0 e 90.   | 
-| **Estrutura_std** | O sentido de mergulho medido para a estrutura. Preencha apenas com números entre 0 e 360. |
-
-> [!NOTE]
-> Perceba que a ordem dos componentes das medidas é diferente para estruturas planares e lineares.
 
 ### 2. Gerando uma nova caderneta
 - Execute o Template Builder (arquivo .exe).
