@@ -1,14 +1,23 @@
 # -*- coding: utf-8 -*-
 """ @author: Gabriel Maccari """
 
+import os
+import sys
 from PyQt6.QtWidgets import *
 from PyQt6.QtGui import QIcon
 from PyQt6.QtCore import Qt
 
 
+def caminho_dependencia(caminho_relativo):
+    """ Função que permite acessar arquivos necessários (ex: icones) tanto em pastas quanto dentro do pacote .exe """
+    if hasattr(sys, "_MEIPASS"):
+        return os.path.join(sys._MEIPASS, caminho_relativo)
+    return os.path.join(os.path.abspath("."), caminho_relativo)
+
+
 class Interface(QMainWindow):
     def __init__(self, colunas):
-        super(Interface, self).__init__(None)
+        super().__init__(None)
 
         self.colunas = colunas
 
@@ -17,7 +26,7 @@ class Interface(QMainWindow):
 
         # Constrói a interface -----
         self.setWindowTitle('Template Builder')
-        self.setWindowIcon(QIcon('appdata/icones/book.png'))
+        self.setWindowIcon(QIcon(caminho_dependencia('appdata/icones/book.png')))
 
         # Rótulo do nome do arquivo
         self.rotulo_arquivo = QLabel("Selecione um arquivo .xlsx com os dados dos pontos mapeados.")
@@ -132,6 +141,76 @@ class Interface(QMainWindow):
         container.setLayout(layout_principal)
         self.setCentralWidget(container)
 
+    def mostrar_dialogo_arquivo(self, titulo: str, filtro: str, modo="abrir"):
+        """
+        Abre um diálogo de seleção/salvamento de arquivo.
+        :param titulo: O título da janela.
+        :param filtro: Filtros de tipo de arquivo (Ex: "Planilha do Excel (*.xlsx);;Planilha com macro do Excel (*.xlsm)")
+        :param modo: "abrir" ou "salvar". Define se o diálogo será de abertura ou salvamento de arquivo.
+        :returns: Nada.
+        """
+        dialog = QFileDialog(self)
+        if modo == "abrir":
+            caminho, tipo = dialog.getOpenFileName(caption=titulo, filter=filtro, parent=self)
+        else:
+            caminho, tipo = dialog.getSaveFileName(caption=titulo, filter=filtro, parent=self)
+        return caminho
+
+    def atualizar_arquivo(self, caminho, num_pontos, pontos):
+        self.rotulo_arquivo.setText(os.path.basename(caminho))
+        self.num_pontos.setText(str(num_pontos) if num_pontos > 0 else "-")
+        self.combobox_ponto_inicio.clear()
+        self.combobox_ponto_inicio.addItems(pontos)
+
+    def atualizar_estado_continuar_caderneta(self, continuar: bool):
+        self.checkbox_folha_rosto.setEnabled(not continuar)
+        self.rotulo_ponto_inicio.setEnabled(continuar)
+        self.combobox_ponto_inicio.setEnabled(continuar)
+
+    def marcar_folha_rosto(self, marcar: bool = True):
+        self.checkbox_folha_rosto.setChecked(marcar)
+
+    def definir_checkbox_continuar(self, valor: bool):
+        self.checkbox_continuar_caderneta.setChecked(valor)
+
+    def definir_estado_botao_gerar(self, habilitado: bool):
+        self.botao_gerar_nova_caderneta.setEnabled(habilitado)
+
+    def atualizar_status_colunas(self, status_colunas):
+        for widget, status in zip(self.botoes_status, status_colunas):
+            widget.definir_status(status)
+
+    def mostrar_popup(self, mensagem: str, tipo_msg: str = "notificacao"):
+        """
+        Mostra uma popup com uma mensagem ao usuário.
+        :param mensagem: A mensagem a ser exibida na popup.
+        :param tipo_msg: "notificacao" ou "erro" (define o ícone da popup). O valor padrão é "notificacao".
+        :returns: Nada.
+        """
+        tipos_popup = {
+            "notificacao": {"titulo": "Notificação", "icone": "appdata/icones/info.png"},
+            "erro": {"titulo": "Erro", "icone": "appdata/icones/error.png"}
+        }
+        title = tipos_popup[tipo_msg]["titulo"]
+        icon = QIcon(caminho_dependencia(tipos_popup[tipo_msg]["icone"]))
+
+        popup = QMessageBox(self)
+        popup.setText(mensagem)
+        popup.setWindowTitle(title)
+        popup.setWindowIcon(icon)
+        popup.exec()
+
+    def mostrar_cursor_espera(self, ativar: bool = True):
+        """
+        Troca o cursor do mouse por um cursor de espera.
+        :param ativar: Default True. False para restaurar o cursor normal.
+        :returns: Nada.
+        """
+        if ativar:
+            QApplication.setOverrideCursor(Qt.CursorShape.WaitCursor)
+        else:
+            QApplication.restoreOverrideCursor()
+
 
 class BotaoStatus(QPushButton):
     def __init__(self, coluna: str, parent: Interface, status: str = "none"):
@@ -191,7 +270,7 @@ class BotaoStatus(QPushButton):
             }
         }
 
-        icone = QIcon(dic_botoes[status]["icone"])
+        icone = QIcon(caminho_dependencia(dic_botoes[status]["icone"]))
         tooltip = dic_botoes[status]["tooltip"]
 
         self.status = status

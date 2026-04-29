@@ -4,11 +4,8 @@
 import json
 import pandas
 import docx
-import numpy
 from datetime import datetime
 from icecream import ic
-
-from Controller import mostrar_popup
 
 COLUNAS_ABA_LISTAS = (
     "Unidades geológicas",

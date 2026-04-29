@@ -1,15 +1,12 @@
 # -*- coding: utf-8 -*-
 """ @author: Gabriel Maccari """
 
-from PyQt6.QtWidgets import *
-from PyQt6.QtGui import QIcon
-from PyQt6.QtCore import Qt
 from icecream import ic
 
 
 class Controlador:
     def __init__(self, modelo, interface):
-        super(Controlador, self).__init__()
+        super().__init__()
 
         # Atributos do controlador
         self.modelo = modelo
@@ -38,7 +35,7 @@ class Controlador:
 
         try:
             # arquivo_aberto, num_pontos = False, "-"   # Eu removi isso e A PRINCÍPIO não quebrou nada :)
-            caminho = mostrar_dialogo_arquivo(
+            caminho = self.interface.mostrar_dialogo_arquivo(
                 "Selecione uma tabela contendo os dados de entrada.",
                 "Pasta de trabalho do Excel (*.xlsx);;Pasta de trabalho habilitada para macro do Excel (*.xlsm);;"
             )
@@ -50,27 +47,20 @@ class Controlador:
             if not arquivo_aberto:
                 return
 
-            partes_caminho = caminho.split("/")
-            self.interface.rotulo_arquivo.setText(partes_caminho[-1])
-            self.interface.num_pontos.setText(str(num_pontos) if num_pontos > 0 else "-")
-            self.interface.combobox_ponto_inicio.clear()
-            self.interface.combobox_ponto_inicio.addItems(self.modelo.df["Ponto"])
-
+            self.interface.atualizar_arquivo(caminho, num_pontos, self.modelo.df["Ponto"])
             self.modelo.abrir_aba_listas(caminho)
-
             self.checar_colunas()
 
             if "nan" in self.modelo.df.columns:
-                mostrar_popup(
+                self.interface.mostrar_popup(
                     "Atenção! Existem colunas com nomes inválidos na tabela que podem causar erros ou "
                     "anomalias no funcionamento da ferramenta. Verifique se as fórmulas presentes nas células de "
                     "cabeçalho das colunas de estruturas (colunas S a AL) não foram comprometidas. Isso geralmente "
-                    "ocorre ao recortar e colar células na aba de Listas ao preencher as estruturas.",
-                    parent=self.interface
+                    "ocorre ao recortar e colar células na aba de Listas ao preencher as estruturas."
                 )
 
         except Exception as exception:
-            mostrar_popup(f"{exception}", tipo_msg="erro", parent=self.interface)
+            self.interface.mostrar_popup(f"{exception}", "erro")
             ic(exception)
 
     def checar_colunas(self):
@@ -82,12 +72,8 @@ class Controlador:
         ic()
 
         status_colunas = self.modelo.checar_colunas()
-        for widget, status in zip(self.interface.botoes_status, status_colunas):
-            widget.definir_status(status)
-        if all(stts == "ok" for stts in status_colunas):
-            self.interface.botao_gerar_nova_caderneta.setEnabled(True)
-        else:
-            self.interface.botao_gerar_nova_caderneta.setEnabled(False)
+        self.interface.atualizar_status_colunas(status_colunas)
+        self.interface.definir_estado_botao_gerar(all(stts == "ok" for stts in status_colunas))
 
     def icone_status_clicado(self, coluna: str, status: str):
         """
@@ -108,16 +94,16 @@ class Controlador:
                 "valores_repetidos": self.modelo.localizar_valores_repetidos
             }
 
-            if status not in localizar_problemas.keys():
+            if status not in localizar_problemas:
                 raise Exception(f"O status informado não foi reconhecido: {status}")
 
             indices_problemas = localizar_problemas[status](coluna)
 
             msg = self.modelo.montar_msg_problemas(status, coluna, indices_problemas)
-            mostrar_popup(msg, "notificacao", self.interface)
+            self.interface.mostrar_popup(msg)
 
         except Exception as exception:
-            mostrar_popup(f"{exception}", tipo_msg="erro", parent=self.interface)
+            self.interface.mostrar_popup(f"{exception}", "erro")
             ic(exception)
 
     def checkbox_continuar_caderneta_clicada(self):
@@ -127,25 +113,32 @@ class Controlador:
         """
         ic()
 
-        continuar_caderneta = self.interface.checkbox_continuar_caderneta.isChecked()
-        if continuar_caderneta:
-            self.interface.checkbox_folha_rosto.setChecked(False)
-            self.caminho_caderneta = mostrar_dialogo_arquivo(
-                "Selecione a caderneta a ser continuada",
-                "Documento do Word (*.docx);;",
-                "abrir",
-                self.interface
-            )
-        else:
-            self.caminho_caderneta = None
+        try:
+            continuar = self.interface.checkbox_continuar_caderneta.isChecked()
 
-        if continuar_caderneta and (self.caminho_caderneta == "" or self.caminho_caderneta is None):
-            self.interface.checkbox_continuar_caderneta.setChecked(False)
-            continuar_caderneta = False
+            if continuar:
+                self.interface.marcar_folha_rosto(False)
 
-        self.interface.checkbox_folha_rosto.setEnabled(not continuar_caderneta)
-        self.interface.rotulo_ponto_inicio.setEnabled(continuar_caderneta)
-        self.interface.combobox_ponto_inicio.setEnabled(continuar_caderneta)
+                caminho = self.interface.mostrar_dialogo_arquivo(
+                    "Selecione a caderneta a ser continuada",
+                    "Documento do Word (*.docx);;",
+                    "abrir"
+                )
+
+                if not caminho:
+                    self.interface.definir_checkbox_continuar(False)
+                    self.interface.marcar_folha_rosto(True)
+                    continuar = False
+                    self.caminho_caderneta = None
+                else:
+                    self.caminho_caderneta = caminho
+            else:
+                self.caminho_caderneta = None
+
+            self.interface.atualizar_estado_continuar_caderneta(continuar)
+        except Exception as exception:
+            self.interface.mostrar_popup(f"{exception}", "erro")
+            ic(exception)
 
     def botao_gerar_nova_caderneta_clicado(self):
         """
@@ -155,87 +148,37 @@ class Controlador:
         ic()
         caminho_saida = None
 
-        try:
-            mostrar_cursor_espera()
+        self.interface.mostrar_cursor_espera(True)
 
+        try:
             montar_folha_de_rosto = self.interface.checkbox_folha_rosto.isChecked()
             montar_folhas_semestre = self.interface.checkbox_folhas_semestre.isChecked()
             continuar_caderneta = self.caminho_caderneta
             ponto_inicio = self.interface.combobox_ponto_inicio.currentText()
-            indice_ponto_inicio = self.modelo.df.index[self.modelo.df["Ponto"] == ponto_inicio]
+            indice_ponto_inicio = self.modelo.df.index[self.modelo.df["Ponto"] == ponto_inicio][0]
 
             self.modelo.gerar_caderneta(
                 montar_folha_de_rosto, montar_folhas_semestre, indice_ponto_inicio, continuar_caderneta
             )
 
-            mostrar_cursor_espera(False)
+            self.interface.mostrar_cursor_espera(False)
 
-            caminho_saida = mostrar_dialogo_arquivo(
+            caminho_saida = self.interface.mostrar_dialogo_arquivo(
                 "Salvar caderneta", "Documento do Word (*.docx)", modo="salvar"
             )
             if caminho_saida != "":
                 self.modelo.salvar_caderneta(caminho_saida)
-                mostrar_popup("Caderneta criada com sucesso!")
+                self.interface.mostrar_popup("Caderneta criada com sucesso!")
 
         except PermissionError as exception:
-            mostrar_popup(
+            self.interface.mostrar_cursor_espera(False)
+            self.interface.mostrar_popup(
                 f"Erro ao salvar a caderneta. Verifique se o arquivo {caminho_saida} não está aberto em outro"
-                f" programa e se você possui privilégios para salvar na pasta selecionada.",
-                tipo_msg="erro",
-                parent=self.interface
+                f" programa e se você possui privilégios para salvar na pasta selecionada.", "erro"
             )
             ic(exception)
         except Exception as exception:
-            mostrar_popup(f"{exception}", tipo_msg="erro", parent=self.interface)
+            self.interface.mostrar_cursor_espera(False)
+            self.interface.mostrar_popup(f"{exception}", "erro")
             ic(exception)
 
-
-def mostrar_dialogo_arquivo(titulo: str, filtro: str, modo="abrir", parent: QMainWindow = None):
-    """
-    Abre um diálogo de seleção/salvamento de arquivo.
-    :param titulo: O título da janela.
-    :param filtro: Filtros de tipo de arquivo (Ex: "Planilha do Excel (*.xlsx);;Planilha com macro do Excel (*.xlsm)")
-    :param modo: "abrir" ou "salvar". Define se o diálogo será de abertura ou salvamento de arquivo.
-    :param parent: A janela pai (Default = None).
-    :returns: Nada.
-    """
-    dialog = QFileDialog(parent)
-    if modo == "abrir":
-        caminho, tipo = dialog.getOpenFileName(caption=titulo, filter=filtro, parent=parent)
-    else:
-        caminho, tipo = dialog.getSaveFileName(caption=titulo, filter=filtro, parent=parent)
-    return caminho
-
-
-def mostrar_cursor_espera(ativar: bool = True):
-    """
-    Troca o cursor do mouse por um cursor de espera.
-    :param ativar: Default True. False para restaurar o cursor normal.
-    :returns: Nada.
-    """
-    if ativar:
-        QApplication.setOverrideCursor(Qt.CursorShape.WaitCursor)
-    else:
-        QApplication.restoreOverrideCursor()
-
-
-def mostrar_popup(mensagem: str, tipo_msg: str = "notificacao", parent: QMainWindow = None):
-    """
-    Mostra uma popup com uma mensagem ao usuário.
-    :param mensagem: A mensagem a ser exibida na popup.
-    :param tipo_msg: "notificacao" ou "erro" (define o ícone da popup). O valor padrão é "notificacao".
-    :param parent: A janela pai (Default = None).
-    :returns: Nada.
-    """
-    tipos_popup = {
-        "notificacao": {"titulo": "Notificação", "icone": "appdata/icones/info.png"},
-        "erro":        {"titulo": "Erro",        "icone": "appdata/icones/error.png"}
-    }
-    title = tipos_popup[tipo_msg]["titulo"]
-    icon = QIcon(tipos_popup[tipo_msg]["icone"])
-
-    popup = QMessageBox(parent)
-    popup.setText(mensagem)
-    popup.setWindowTitle(title)
-    popup.setWindowIcon(icon)
-    popup.exec()
