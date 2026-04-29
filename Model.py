@@ -13,8 +13,6 @@ from Controller import mostrar_popup
 COLUNAS_ABA_LISTAS = (
     "Unidades geológicas",
     "Unidades litoestratigráficas/litodêmicas",
-    "Estruturas planares",
-    "Estruturas lineares",
     "Áreas/Faixas",
     "Fases"
 )
@@ -175,7 +173,7 @@ class Modelo:
             if dominio is not None:
                 valores_coluna = df[c]
                 if nulo_ok:
-                    valores_coluna.dropna(inplace=True)
+                    valores_coluna = valores_coluna.dropna()
                 if not valores_coluna.isin(dominio).all():
                     status_colunas.append("valores_nao_permitidos")
                     continue
@@ -184,13 +182,13 @@ class Modelo:
             if intervalo is not None:
                 valores_coluna = df[c]
                 if nulo_ok:
-                    valores_coluna.dropna(inplace=True)
+                    valores_coluna = valores_coluna.dropna()
                 if not valores_coluna.between(intervalo[0], intervalo[1]).all():
                     status_colunas.append("fora_do_intervalo")
                     continue
 
             # Checa se existem valores repetidos não-permitidos na coluna
-            if unico and not df[c].nunique() == df[c].count():
+            if unico and df[c].duplicated().any():
                 status_colunas.append("valores_repetidos")
                 continue
 
@@ -244,7 +242,7 @@ class Modelo:
         """
         ic(coluna)
 
-        valores_coluna = self.df.loc[:, coluna]
+        valores_coluna = self.df[coluna]
         indices_problemas = self.df[valores_coluna.isnull()].index.tolist()
         return indices_problemas
 
@@ -256,7 +254,7 @@ class Modelo:
         """
         ic(coluna)
 
-        valores_coluna = self.df.loc[:, coluna]
+        valores_coluna = self.df[coluna]
         dominio = self.colunas[coluna]["dominio"]
         indices_problemas = valores_coluna.index[~valores_coluna.isin(dominio)].tolist()
         return indices_problemas
@@ -319,7 +317,7 @@ class Modelo:
 
         for i in indices:
             linha = i + 2
-            ponto = self.df.loc[i, ["Ponto"]].values[0]
+            ponto = self.df.at[i, "Ponto"]
             mensagem.append(f"Linha {linha} (ponto {ponto})")
 
         return "\n".join(mensagem)
@@ -515,14 +513,14 @@ class Modelo:
 
         # Adiciona a seção de medidas estruturais
         documento.add_paragraph(text="MEDIDAS ESTRUTURAIS", style=self.estilos["subtitulo"])
-        documento.add_paragraph(text="• <sigla> = <medida>", style=self.estilos["normal"])
-        """
+        documento.add_paragraph(text="• <Estrutura> = <Medida>")
+
         documento.add_paragraph(
             text=f"Use a notação xxx/yy para estruturas planares e yy-xxx para estruturas lineares, onde xxx = sentido "
                  f"de mergulho (dip direction ou trend) e yy = ângulo de mergulho (dip ou plunge). Ex: Lb = 20-180.",
             style=self.estilos["anotacao"]
         )
-        """
+
         documento.add_paragraph(text=f"REMOVA esta seção caso não haja medidas.", style=self.estilos["anotacao"])
 
         # Adiciona a seção de croquis
